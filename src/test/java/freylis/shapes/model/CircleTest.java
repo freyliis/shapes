@@ -20,7 +20,7 @@ public class CircleTest {
 
     @Test
     public void shouldReturnSurfaceZeroForZeroRadius() {
-        Circle objectUnderTest = new Circle(0, new Point(1, 1));
+        Circle objectUnderTest = new Circle(0.0, new ImmutablePoint(1, 1));
         Double expResult = 0.0;
         Double result = objectUnderTest.getSurface();
         assertThat(result, CoreMatchers.is(expResult));
@@ -28,7 +28,7 @@ public class CircleTest {
 
     @Test
     public void shouldReturnProperSurface() {
-        Circle objectUnderTest = new Circle(1, new Point(1, 1));
+        Circle objectUnderTest = new Circle(1.0, new ImmutablePoint(1, 1));
         Double expResult = Math.PI * Math.pow(1, 2);;
         Double result = objectUnderTest.getSurface();
         assertThat(result, CoreMatchers.is(expResult));
@@ -36,28 +36,41 @@ public class CircleTest {
 
     @Test
     public void shouldReturnTrueIfPointIsInside() {
-        Point point = new Point(1, 1);
-        Circle instance = new Circle(1, new Point(1, 1));
+        ImmutablePoint point = new ImmutablePoint(1, 1);
+        Circle instance = new Circle(1.0, new ImmutablePoint(1, 1));
         boolean expResult = true;
-        boolean result = instance.isInside(point);
+         boolean withEdge = true;
+        boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
 
     @Test
     public void shouldReturnFalseIfPointIsNotInside() {
-        Point point = new Point(5, 5);
-        Circle instance = new Circle(1, new Point(1, 1));
+        ImmutablePoint point = new ImmutablePoint(5, 5);
+        Circle instance = new Circle(1.0, new ImmutablePoint(1, 1));
         boolean expResult = false;
-        boolean result = instance.isInside(point);
+         boolean withEdge = true;
+        boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
 
     @Test
     public void shouldReturnTrueIfPointIsOnEdge() {
-        Point point = new Point(1, 0);
-        Circle instance = new Circle(1, new Point(1, 1));
+        ImmutablePoint point = new ImmutablePoint(1, 0);
+        Circle instance = new Circle(1.0, new ImmutablePoint(1, 1));
         boolean expResult = true;
-        boolean result = instance.isInside(point);
+        boolean withEdge = true;
+        boolean result = instance.isInside(point, withEdge);
+        assertThat(result, CoreMatchers.is(expResult));
+    }
+    
+     @Test
+    public void shouldReturnTrueIfPointIsOnEdgeWithoutEdge() {
+        ImmutablePoint point = new ImmutablePoint(1, 0);
+        Circle instance = new Circle(1.0, new ImmutablePoint(1, 1));
+        boolean expResult = false;
+        boolean withEdge = false;
+        boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
 }

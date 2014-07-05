@@ -11,19 +11,19 @@ package freylis.shapes.model;
  */
 public class Circle implements Shape {
 
-    private final double radius;
-    private final Point center;
+    private final Double radius;
+    private final ImmutablePoint center;
 
-    public Circle(double radius, Point center) {
+    public Circle(Double radius, ImmutablePoint center) {
         this.radius = radius;
         this.center = center;
     }
 
-    public double getRadius() {
+    public Double getRadius() {
         return radius;
     }
 
-    public Point getCenter() {
+    public ImmutablePoint getCenter() {
         return center;
     }
 
@@ -38,9 +38,16 @@ public class Circle implements Shape {
     }
 
     @Override
-    public boolean isInside(Point point) {
-        final double xDifference = point.getxPosition() - this.center.getxPosition();
-        final double yDifference = point.getyPosition() - this.center.getyPosition();
-        return (Math.pow(xDifference, 2) + Math.pow(yDifference, 2)) <= Math.pow(this.radius,2);
+    public boolean isInside(ImmutablePoint point, boolean withEdge) {
+        final double xDifference = point.getxPosition() - center.getxPosition();
+        final double yDifference = point.getyPosition() - center.getyPosition();
+        double xSquare = Math.pow(xDifference, 2);
+        double ySquare = Math.pow(yDifference, 2);
+        double radiusSquare = Math.pow(radius, 2);
+        if (withEdge) {
+            return xSquare + ySquare <= radiusSquare;
+        } else {
+            return xSquare + ySquare < radiusSquare;
+        }
     }
 }

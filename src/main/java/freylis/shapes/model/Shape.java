@@ -14,6 +14,6 @@ public interface Shape {
     
     public Double getSurface();
     
-    public boolean isInside(Point point);
+    public boolean isInside(ImmutablePoint point, boolean withEdge);
     
 }
