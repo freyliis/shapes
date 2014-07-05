@@ -5,6 +5,8 @@
  */
 package freylis.shapes.model;
 
+import freylis.shapes.shapes.Shapes;
+
 /**
  *
  * @author freylis
@@ -14,7 +16,22 @@ public class Circle implements Shape {
     private final Double radius;
     private final ImmutablePoint center;
 
-    public Circle(Double radius, ImmutablePoint center) {
+    public static Circle constructCircle(String[] parameters) {
+        if (parameters.length != 4) {
+            System.out.println("Wrong number of parameters for circle: " + parameters.length);
+            return null;
+        } else {
+            ImmutablePoint center = new ImmutablePoint(Shapes.getDouble(parameters[1]), Shapes.getDouble(parameters[2]));
+            Double radius = Shapes.getDouble(parameters[3]);
+            return new Circle(center, radius);
+        }
+    }
+
+    static Circle constructCircle(ImmutablePoint center, Double radius) {
+        return new Circle(center, radius);
+    }
+
+    protected Circle(ImmutablePoint center, Double radius) {
         this.radius = radius;
         this.center = center;
     }

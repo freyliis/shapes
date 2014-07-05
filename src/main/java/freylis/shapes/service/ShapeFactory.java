@@ -7,18 +7,12 @@
 package freylis.shapes.service;
 
 import freylis.shapes.model.Shape;
-import java.util.Scanner;
 
 /**
  *
  * @author freylis
  */
-public class ShapeBuilderServiceImpl {
-//implements ShapeBuilderService{
-//
-//    @Override
-//    public Shape buildShape(String parameters) {
-//   
-//    }
+public interface ShapeFactory {
     
+    public Shape buildShape(String line);
 }

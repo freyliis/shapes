@@ -5,6 +5,7 @@
  */
 package freylis.shapes.model;
 
+import freylis.shapes.shapes.Shapes;
 import java.awt.geom.Line2D;
 
 /**
@@ -22,7 +23,19 @@ public class Triangle implements Shape {
     private final double distanceZX;
     private Double surface;
 
-    public Triangle(ImmutablePoint pointX, ImmutablePoint pointY, ImmutablePoint pointZ) {
+    public static Triangle constructTriangle(String[] parameters) {
+        if (parameters.length != 7) {
+             System.out.println("Wrong number of parameters for triangle: " + parameters.length);
+             return null;
+        } else {
+            ImmutablePoint pointX = new ImmutablePoint(Shapes.getDouble(parameters[1]), Shapes.getDouble(parameters[2]));
+            ImmutablePoint pointY =new ImmutablePoint(Shapes.getDouble(parameters[3]), Shapes.getDouble(parameters[4]));
+            ImmutablePoint pointZ = new ImmutablePoint(Shapes.getDouble(parameters[5]), Shapes.getDouble(parameters[6]));
+            return new Triangle(pointX, pointY, pointZ);
+        }
+    }
+
+    protected Triangle(ImmutablePoint pointX, ImmutablePoint pointY, ImmutablePoint pointZ) {
         this.distanceXY = pointX.distance(pointY);
         this.distanceYZ = pointY.distance(pointZ);
         this.distanceZX = pointZ.distance(pointX);

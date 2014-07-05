@@ -5,18 +5,32 @@
  */
 package freylis.shapes.model;
 
+import freylis.shapes.shapes.Shapes;
+
 /**
  *
  * @author freylis
  */
 public class Donut implements Shape {
 
-    private Circle innerCircle;
-    private Circle outerCircle;
+    private final Circle innerCircle;
+    private final Circle outerCircle;
 
-    public Donut(ImmutablePoint center, Double radiusOuter, Double radiusInner) {
-        this.innerCircle = new Circle(radiusInner, center);
-        this.outerCircle = new Circle(radiusOuter, center);
+    public static Donut constructDonut(String[] parameters) {
+        if (parameters.length != 4) {
+             System.out.println("Wrong number of parameters for donut: " + parameters.length);
+             return null;
+        } else {
+            ImmutablePoint center = new ImmutablePoint(Shapes.getDouble(parameters[1]), Shapes.getDouble(parameters[2]));
+            Double radiusOuter = Shapes.getDouble(parameters[3]);
+            Double radiusInner = Shapes.getDouble(parameters[4]);
+            return new Donut(center, radiusOuter, radiusInner);
+        }
+    }
+
+    protected Donut(ImmutablePoint center, Double radiusOuter, Double radiusInner) {
+        this.innerCircle = Circle.constructCircle(center, radiusInner);
+        this.outerCircle = Circle.constructCircle(center, radiusOuter);
     }
 
     public ImmutablePoint getCenter() {

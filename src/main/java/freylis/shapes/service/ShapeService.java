@@ -6,14 +6,16 @@
 
 package freylis.shapes.service;
 
-import freylis.shapes.model.Shape;
+import freylis.shapes.model.ImmutablePoint;
 
 /**
  *
  * @author freylis
  */
-public interface ShapeBuilderService {
+public interface ShapeService {
     
-    public Shape buildShape(String parameters);
+    public void addShape(String line);
+    
+    public double checkIfPointInsideShapes(ImmutablePoint point);
     
 }

@@ -11,7 +11,7 @@ import java.awt.Point;
  *
  * @author freylis
  */
-class ImmutablePoint {
+public class ImmutablePoint {
 
     private final Point.Double point;
 
