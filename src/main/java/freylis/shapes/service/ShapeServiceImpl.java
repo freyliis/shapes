@@ -12,6 +12,12 @@ import freylis.shapes.model.Shape;
 import static freylis.shapes.shapes.Shapes.DELIMITER;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,10 +27,12 @@ public class ShapeServiceImpl implements ShapeService {
 
     private final GenericDao dao;
     private final ShapeFactory shapeFactory;
+    private final ExecutorService newFixedThreadPool;
 
     public ShapeServiceImpl(GenericDao dao, ShapeFactory shapeFactory) {
         this.dao = dao;
         this.shapeFactory = shapeFactory;
+        newFixedThreadPool = Executors.newFixedThreadPool(3);
     }
 
     @Override
@@ -43,15 +51,16 @@ public class ShapeServiceImpl implements ShapeService {
 
     @Override
     public List<Shape> getShapesWherePointIsInside(ImmutablePoint point, List<Shape> allShapes) {
-
         List<Shape> shapesWithPointInside = new ArrayList<>();
         for (int i = 0; i < allShapes.size(); i++) {
-            Shape shape = allShapes.get(i);
-            if (shape.isInside(point, true)) {
-                System.out.printf("\nPoint is inside shape %d : %s . ", i, shape);
-                System.out.printf("\nShape surface: %f", shape.getSurface());
-                shapesWithPointInside.add(shape);
-
+            try {
+                Future submit = newFixedThreadPool.submit(new ShapeTask(allShapes.get(i), i, point));
+                Object shape = submit.get();
+                if (shape != null) {
+                    shapesWithPointInside.add((Shape) shape);
+                }
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(ShapeServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return shapesWithPointInside;

@@ -55,7 +55,7 @@ public class Shapes {
     }
 
     private void showPrompt() {
-        System.out.printf("Welcome in Shapes\n");
+        System.out.printf("\n\n\nWelcome in Shapes\n");
         System.out.printf("For help write help\n");
     }
 

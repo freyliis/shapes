@@ -51,7 +51,7 @@ public class FileReader implements Reader {
             String fileName = getFileName(line);
             URL systemResource = FileReader.class.getResource(fileName);
             if (systemResource == null) {
-                systemResource = FileReader.class.getResource("./" + fileName);
+                systemResource = FileReader.class.getResource("/" + fileName);
                 if (systemResource != null) {
                     URI resource = systemResource.toURI();
                     file = Paths.get(resource);
