@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+    <bean id="dao" class="freylis.shapes.dao.inmemory.InMemoryDao"/>
+ 
+    <bean id="shapeFactory" class="freylis.shapes.factory.ShapeFactoryImpl"/>
+        
+    <bean id="consoleReader" class="freylis.shapes.reader.ConsoleReader"/>
+        
+    <bean id="shapeService" class="freylis.shapes.service.ShapeServiceImpl">
+        <constructor-arg>
+            <ref bean="dao"/> 
+        </constructor-arg>
+        <constructor-arg>  
+            <ref bean="shapeFactory"/>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="pointService" class="freylis.shapes.service.PointServiceImpl">
+        <constructor-arg>
+            <ref bean="shapeService"/>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="fileParser" class="freylis.shapes.parsers.FileParser">
+        <constructor-arg>
+            <ref bean="pointService"/> 
+        </constructor-arg>
+        <constructor-arg> 
+            <ref bean="shapeService"/> 
+        </constructor-arg>
+    </bean>
+    
+    <bean id="shapesRunner" class="freylis.shapes.shapes.Shapes">
+        <constructor-arg>
+            <ref bean="consoleReader"/> 
+        </constructor-arg>
+        <constructor-arg> 
+            <ref bean="fileParser"/> 
+        </constructor-arg>
+        
+    </bean>
+ 
+</beans>

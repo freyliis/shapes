@@ -5,15 +5,11 @@
  */
 package freylis.shapes.shapes;
 
-import freylis.shapes.dao.inmemory.InMemoryDao;
-import freylis.shapes.factory.ShapeFactoryImpl;
 import freylis.shapes.parsers.FileParser;
 import freylis.shapes.parsers.HelpParser;
-import freylis.shapes.reader.ConsoleReader;
 import freylis.shapes.reader.Reader;
-import freylis.shapes.service.PointServiceImpl;
-import freylis.shapes.service.ShapeService;
-import freylis.shapes.service.ShapeServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -27,16 +23,19 @@ public class Shapes {
 
     public static final String DELIMITER = "\\s";
     private final Reader reader;
-    private FileParser fileParser;
+    private final FileParser fileParser;
 
     public static void main(String[] args) {
-        ShapeService shapeService = new ShapeServiceImpl(new InMemoryDao(), new ShapeFactoryImpl());
-        Shapes shapes = new Shapes(new ConsoleReader(), new FileParser(new PointServiceImpl(shapeService), shapeService));
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+       // ShapeService shapeService = new ShapeServiceImpl(new InMemoryDao(), new ShapeFactoryImpl());
+        Shapes shapes = (Shapes) context.getBean("shapesRunner");//new Shapes(new ConsoleReader(), new FileParser(new PointServiceImpl(shapeService), shapeService));
         shapes.runShapes();
     }
 
     public Shapes(Reader reader, FileParser fileParser) {
         this.reader = reader;
+        this.fileParser = fileParser;
+
     }
 
     public void runShapes() {

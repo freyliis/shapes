@@ -5,13 +5,7 @@
  */
 package freylis.shapes.reader;
 
-import freylis.shapes.model.ImmutablePoint;
-import freylis.shapes.model.Shape;
-import freylis.shapes.service.PointService;
-import freylis.shapes.service.ShapeService;
 import static freylis.shapes.shapes.Shapes.DELIMITER;
-import static freylis.shapes.shapes.Shapes.FILE;
-import freylis.shapes.utils.MathUtils;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
