@@ -27,8 +27,7 @@ public class Shapes {
 
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-       // ShapeService shapeService = new ShapeServiceImpl(new InMemoryDao(), new ShapeFactoryImpl());
-        Shapes shapes = (Shapes) context.getBean("shapesRunner");//new Shapes(new ConsoleReader(), new FileParser(new PointServiceImpl(shapeService), shapeService));
+        Shapes shapes = (Shapes) context.getBean("shapesRunner");
         shapes.runShapes();
     }
 

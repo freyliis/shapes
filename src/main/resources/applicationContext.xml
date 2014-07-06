@@ -9,7 +9,8 @@
     <bean id="shapeFactory" class="freylis.shapes.factory.ShapeFactoryImpl"/>
         
     <bean id="consoleReader" class="freylis.shapes.reader.ConsoleReader"/>
-        
+    
+    
     <bean id="shapeService" class="freylis.shapes.service.ShapeServiceImpl">
         <constructor-arg>
             <ref bean="dao"/> 
@@ -41,7 +42,6 @@
         <constructor-arg> 
             <ref bean="fileParser"/> 
         </constructor-arg>
-        
     </bean>
  
 </beans>

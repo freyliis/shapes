@@ -5,8 +5,6 @@
  */
 package freylis.shapes.model;
 
-import freylis.shapes.utils.MathUtils;
-
 /**
  *
  * @author freylis

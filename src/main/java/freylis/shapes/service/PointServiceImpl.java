@@ -26,12 +26,16 @@ public class PointServiceImpl implements PointService {
     public void checkIfPointIsInsideShapes(ImmutablePoint point) {
         List<Shape> shapes = shapeService.getShapes();
         List<Shape> shapesWherePointIsInside = shapeService.getShapesWherePointIsInside(point, shapes);
-        double totalSurface = shapeService.getTotalSurface(shapesWherePointIsInside);
-        System.out.printf("\nTotal shape surface: %f\n", totalSurface);
+        if (shapesWherePointIsInside.isEmpty()) {
+            System.out.printf("\nThere are no shapes with this point.\n");
+        } else {
+            double totalSurface = shapeService.getTotalSurface(shapesWherePointIsInside);
+            System.out.printf("\nTotal shape surface: %f\n", totalSurface);
+        }
     }
 
     @Override
-    public ImmutablePoint parsePoint(String line) throws RuntimeException {
+    public ImmutablePoint parsePoint(String line) {
         String[] split = line.split(DELIMITER);
         if (split.length != 2) {
             throw new RuntimeException("Wrong number of parameters for point. Should be 2.");

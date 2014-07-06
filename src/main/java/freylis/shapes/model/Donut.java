@@ -5,9 +5,6 @@
  */
 package freylis.shapes.model;
 
-import freylis.shapes.shapes.Shapes;
-import freylis.shapes.utils.MathUtils;
-
 /**
  *
  * @author freylis
@@ -19,7 +16,7 @@ public class Donut implements Shape {
 
     public Donut(ImmutablePoint center, Double radiusOuter, Double radiusInner) {
         if (!checkIfDonut(radiusOuter, radiusInner)) {
-            throw new RuntimeException("Not a donut");
+            throw new RuntimeException("Outer radius is smaller than inner radius.Cannot create a donut");
         }
         this.innerCircle = new Circle(center, radiusInner);
         this.outerCircle = new Circle(center, radiusOuter);

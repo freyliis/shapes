@@ -5,8 +5,6 @@
  */
 package freylis.shapes.model;
 
-import freylis.shapes.shapes.Shapes;
-import freylis.shapes.utils.MathUtils;
 import java.awt.geom.Line2D;
 
 /**
@@ -30,7 +28,7 @@ public class Triangle implements Shape {
         this.distanceZX = pointZ.distance(pointX);
 
         if (!checkIfTriangle()) {
-            throw new RuntimeException("Not a triangle");
+            throw new RuntimeException("Points do not fulfill the triangle inequality. Cannot create a triangle");
         }
         this.pointX = pointX;
         this.pointY = pointY;
