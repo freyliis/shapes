@@ -6,6 +6,7 @@
 package freylis.shapes.model;
 
 import freylis.shapes.shapes.Shapes;
+import freylis.shapes.utils.MathUtils;
 
 /**
  *
@@ -17,13 +18,13 @@ public class Donut implements Shape {
     private final Circle outerCircle;
 
     public static Donut constructDonut(String[] parameters) {
-        if (parameters.length != 4) {
-             System.out.println("Wrong number of parameters for donut: " + parameters.length);
-             return null;
+        if (parameters.length != 5) {
+            System.out.println("Wrong number of parameters for donut: " + parameters.length);
+            return null;
         } else {
-            ImmutablePoint center = new ImmutablePoint(Shapes.getDouble(parameters[1]), Shapes.getDouble(parameters[2]));
-            Double radiusOuter = Shapes.getDouble(parameters[3]);
-            Double radiusInner = Shapes.getDouble(parameters[4]);
+            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+            Double radiusOuter = MathUtils.getDouble(parameters[3]);
+            Double radiusInner = MathUtils.getDouble(parameters[4]);
             return new Donut(center, radiusOuter, radiusInner);
         }
     }

@@ -7,6 +7,7 @@
 package freylis.shapes.service;
 
 import freylis.shapes.model.ImmutablePoint;
+import freylis.shapes.model.Shape;
 
 /**
  *
@@ -14,8 +15,11 @@ import freylis.shapes.model.ImmutablePoint;
  */
 public interface ShapeService {
     
-    public void addShape(String line);
+    public Shape parseShape(String line);
     
     public double checkIfPointInsideShapes(ImmutablePoint point);
     
+    public void saveShape(Shape shape);
+    
+    public void readShapesFromFile(String line);
 }

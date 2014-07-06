@@ -7,12 +7,12 @@ package freylis.shapes.shapes;
 
 import freylis.shapes.dao.inmemory.InMemoryDao;
 import freylis.shapes.model.ImmutablePoint;
-import freylis.shapes.service.ShapeFactory;
-import freylis.shapes.service.ShapeFactoryImpl;
+import freylis.shapes.model.Shape;
+import freylis.shapes.factory.ShapeFactoryImpl;
 import freylis.shapes.service.ShapeService;
 import freylis.shapes.service.ShapeServiceImpl;
+import freylis.shapes.utils.MathUtils;
 import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -23,11 +23,12 @@ public class Shapes {
 
     public static final String EXIT = "exit";
     public static final String HELP = "help";
-    private final String pointPattern = "^(-)?\\d+\\.?\\d*";
+    public static final String FILE = "file";
+ 
     public static final String DELIMITER = "\\s";
     private final ShapeService shapeService;
     
-    
+    private final MathUtils mathUtils = new MathUtils();
 
     public static void main(String[] args) {
         Shapes shapes = new Shapes(new ShapeServiceImpl(new InMemoryDao(), new ShapeFactoryImpl()));
@@ -37,7 +38,8 @@ public class Shapes {
     public Shapes(ShapeService shapeService) {
         this.shapeService = shapeService;
     }
-
+    
+    
     public void runShapes() {
         Scanner scanner = new Scanner(System.in);
         scanner = scanner.useDelimiter(Pattern.compile(DELIMITER));
@@ -56,13 +58,14 @@ public class Shapes {
         }
     }
 
+
     private void readLine(String line) throws NumberFormatException {
-        Pattern pattern = Pattern.compile(pointPattern);
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.matches()) {
+        if (mathUtils.checkIfStartsWithNumber(line)) {
             checkPoint(line);
+        } else if (line.startsWith(FILE)) {
+            shapeService.readShapesFromFile(line);
         } else {
-            checkShape(line);
+            addShape(line);
         }
     }
 
@@ -70,14 +73,15 @@ public class Shapes {
         System.out.println("Please tralalala");
     }
 
-    private void checkShape(String line) {
-        shapeService.addShape(line);
+    private void addShape(String line) {
+        Shape shape = shapeService.parseShape(line);
+        shapeService.saveShape(shape);
     }
 
     private void checkPoint(String line) {
-        ImmutablePoint point = createPoint(line); 
-        shapeService.checkIfPointInsideShapes(point);
-
+        ImmutablePoint point = createPoint(line);
+        double totalSurface = shapeService.checkIfPointInsideShapes(point);
+        System.out.printf("\nTotal shape surface: %f", totalSurface);
     }
 
     private ImmutablePoint createPoint(String line) {
@@ -86,18 +90,12 @@ public class Shapes {
             System.out.println("Too less parameters for point. Should be 2.");
             return null;
         }
-        double xPosition = getDouble(split[0]);
-        double yPosition = getDouble(split[1]);
+        double xPosition = MathUtils.getDouble(split[0]);
+        double yPosition = MathUtils.getDouble(split[1]);
         return new ImmutablePoint(xPosition, yPosition);
     }
 
-    public static Double getDouble(String number) {
-        try {
-            return Double.parseDouble(number);
-        } catch (NumberFormatException ex) {
-            System.out.println("Wrong number format");
-            throw ex;
-        }
-    }
+
+    
 
 }

@@ -6,6 +6,7 @@
 package freylis.shapes.model;
 
 import freylis.shapes.shapes.Shapes;
+import freylis.shapes.utils.MathUtils;
 import java.awt.geom.Line2D;
 
 /**
@@ -25,12 +26,12 @@ public class Triangle implements Shape {
 
     public static Triangle constructTriangle(String[] parameters) {
         if (parameters.length != 7) {
-             System.out.println("Wrong number of parameters for triangle: " + parameters.length);
-             return null;
+            System.out.println("Wrong number of parameters for triangle: " + parameters.length);
+            return null;
         } else {
-            ImmutablePoint pointX = new ImmutablePoint(Shapes.getDouble(parameters[1]), Shapes.getDouble(parameters[2]));
-            ImmutablePoint pointY =new ImmutablePoint(Shapes.getDouble(parameters[3]), Shapes.getDouble(parameters[4]));
-            ImmutablePoint pointZ = new ImmutablePoint(Shapes.getDouble(parameters[5]), Shapes.getDouble(parameters[6]));
+            ImmutablePoint pointX = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+            ImmutablePoint pointY = new ImmutablePoint(MathUtils.getDouble(parameters[3]), MathUtils.getDouble(parameters[4]));
+            ImmutablePoint pointZ = new ImmutablePoint(MathUtils.getDouble(parameters[5]), MathUtils.getDouble(parameters[6]));
             return new Triangle(pointX, pointY, pointZ);
         }
     }
@@ -111,6 +112,11 @@ public class Triangle implements Shape {
     private boolean checkIfTriangle() {
 
         return (distanceXY < distanceYZ + distanceZX) && (distanceYZ < distanceXY + distanceZX) && (distanceZX < distanceXY + distanceYZ);
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle with " + "pointX " + pointX + ", pointY " + pointY + ", pointZ " + pointZ;
     }
 
 }

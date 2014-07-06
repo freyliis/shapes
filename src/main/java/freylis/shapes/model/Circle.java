@@ -6,6 +6,7 @@
 package freylis.shapes.model;
 
 import freylis.shapes.shapes.Shapes;
+import freylis.shapes.utils.MathUtils;
 
 /**
  *
@@ -21,8 +22,8 @@ public class Circle implements Shape {
             System.out.println("Wrong number of parameters for circle: " + parameters.length);
             return null;
         } else {
-            ImmutablePoint center = new ImmutablePoint(Shapes.getDouble(parameters[1]), Shapes.getDouble(parameters[2]));
-            Double radius = Shapes.getDouble(parameters[3]);
+            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+            Double radius = MathUtils.getDouble(parameters[3]);
             return new Circle(center, radius);
         }
     }

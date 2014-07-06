@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package freylis.shapes.service;
+package freylis.shapes.factory;
 
 import freylis.shapes.model.Shape;
 
