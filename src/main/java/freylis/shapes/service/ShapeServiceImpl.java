@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,16 +46,31 @@ public class ShapeServiceImpl implements ShapeService {
     }
 
     @Override
-    public double checkIfPointInsideShapes(ImmutablePoint point) {
+    public List<Shape> getShapes() {
         List<Shape> allShapes = dao.getAll();
-        double totalSurface = 0.0;
+        return allShapes;
+    }
+
+    @Override
+    public List<Shape> getShapesWherePointIsInside(ImmutablePoint point, List<Shape> allShapes) {
+
+        List<Shape> shapesWithPointInside = new ArrayList<>();
         for (int i = 0; i < allShapes.size(); i++) {
             Shape shape = allShapes.get(i);
             if (shape.isInside(point, true)) {
                 System.out.printf("\nPoint is inside shape %d : %s . ", i, shape);
                 System.out.printf("\nShape surface: %f", shape.getSurface());
-                totalSurface += shape.getSurface();
+                shapesWithPointInside.add(shape);
+
             }
+        }
+        return shapesWithPointInside;
+    }
+
+    public double getTotalSurface(List<Shape> shapes) {
+        double totalSurface = 0.0;
+        for (Shape shape : shapes) {
+            totalSurface += shape.getSurface();
         }
         return totalSurface;
     }

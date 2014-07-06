@@ -25,19 +25,22 @@ public class FileService {
         Path file = null;
         try {
             String fileName = getFileName(line);
-            final URL systemResource = ClassLoader.getSystemResource(fileName);
-            if (systemResource != null) {
-                URI resource = systemResource.toURI();
-                file = Paths.get(resource);
+            URL systemResource = FileService.class.getResource(fileName);
+            if (systemResource == null) {
+                systemResource = FileService.class.getResource("./" + fileName);
+                if (systemResource != null) {
+                    URI resource = systemResource.toURI();
+                    file = Paths.get(resource);
 
-            } else {
-                file = Paths.get(fileName);
+                } else {
+                    file = Paths.get(fileName);
+                }
             }
             if (!Files.exists(file)) {
-                System.out.println("File does not exist");
+                throw new RuntimeException("File " + file.toAbsolutePath() + " does not exist");
             }
         } catch (URISyntaxException ex) {
-             throw new RuntimeException(ex);
+            throw new RuntimeException(ex);
         }
         return file;
     }
