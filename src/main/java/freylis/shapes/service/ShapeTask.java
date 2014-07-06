@@ -28,7 +28,7 @@ public class ShapeTask implements Callable {
     @Override
     public Object call() throws Exception {
         if (shape.isInside(point, true)) {
-            System.out.printf("\nPoint is inside shape %d : %s . ", index, shape);
+            System.out.printf("\nPoint %s is inside shape %d : %s . ", point, index, shape);
             System.out.printf("\nShape surface: %f", shape.getSurface());
             return shape;
         }

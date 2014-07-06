@@ -62,8 +62,8 @@ public class TriangleTest {
         boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
-    
-     @Test
+
+    @Test
     public void shouldReturnTrueIfPointIsInsideOnEdge() {
         ImmutablePoint pointX = new ImmutablePoint(0, 0);
         ImmutablePoint pointY = new ImmutablePoint(4, 0);
@@ -71,6 +71,32 @@ public class TriangleTest {
         Triangle instance = new Triangle(pointX, pointY, pointZ);
         ImmutablePoint point = new ImmutablePoint(1, 0);
         boolean expResult = true;
+        boolean withEdge = true;
+        boolean result = instance.isInside(point, withEdge);
+        assertThat(result, CoreMatchers.is(expResult));
+    }
+
+    @Test
+    public void shouldReturnFalseIfPointIsNotInsideMinus() {
+        ImmutablePoint pointX = new ImmutablePoint(0, 0);
+        ImmutablePoint pointY = new ImmutablePoint(4, 0);
+        ImmutablePoint pointZ = new ImmutablePoint(2, 4);
+        Triangle instance = new Triangle(pointX, pointY, pointZ);
+        ImmutablePoint point = new ImmutablePoint(-5.0, -5.0);
+        boolean expResult = false;
+        boolean withEdge = true;
+        boolean result = instance.isInside(point, withEdge);
+        assertThat(result, CoreMatchers.is(expResult));
+    }
+    
+     @Test
+    public void shouldReturnTrueIfPointIsNotInsideMinus() {
+        ImmutablePoint pointX = new ImmutablePoint(-3, -3);
+        ImmutablePoint pointY = new ImmutablePoint(2, 2);
+        ImmutablePoint pointZ = new ImmutablePoint(2, -2);
+        Triangle instance = new Triangle(pointX, pointY, pointZ);
+        ImmutablePoint point = new ImmutablePoint(-8.0, -8.0);
+        boolean expResult = false;
         boolean withEdge = true;
         boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));

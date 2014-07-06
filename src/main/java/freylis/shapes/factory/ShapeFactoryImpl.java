@@ -24,18 +24,21 @@ public class ShapeFactoryImpl implements ShapeFactory {
 
     @Override
     public Shape buildShape(String shapeKind, String... line) {
-
+        Shape shape = null;
         switch (shapeKind) {
             case TRIANGLE:
-                return constructTriangle(line);
+                shape = constructTriangle(line);
+                break;
             case CIRCLE:
-                return constructCircle(line);
+                shape = constructCircle(line);
+                break;
             case DONUT:
-                return constructDonut(line);
+                shape = constructDonut(line);
+                break;
             default:
                 System.out.println("No shape with name " + shapeKind);
-                return null;
         }
+        return shape;
     }
 
     private Shape constructTriangle(String[] parameters) {
@@ -63,7 +66,7 @@ public class ShapeFactoryImpl implements ShapeFactory {
 
     private void checkParametersAreOk(int size, int properSize) {
         if (size != properSize) {
-            throw new IllegalArgumentException("Wrong number of parameters for donut: " + size + ". Should be " + properSize);
+            throw new IllegalArgumentException("Wrong number of parameters for shape: " + size + ". Should be " + properSize);
         }
     }
 

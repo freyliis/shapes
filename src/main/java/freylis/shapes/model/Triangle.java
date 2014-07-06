@@ -91,8 +91,19 @@ public class Triangle implements Shape {
         final double ptLineDist1 = b.ptLineDist(pntX, pntY);
         final double ptLineDist2 = c.ptLineDist(pntX, pntY);
 
-        return (ptLineDist == 0 || ptLineDist1 == 0 || ptLineDist2 == 0);
-
+        double distanceZ = point.distance(pointZ);
+        double distanceY = point.distance(pointY);
+        double distanceX = point.distance(pointX);
+        if (ptLineDist == 0) {
+            return (distanceXY == distanceX + distanceY);
+        }
+        if (ptLineDist1 == 0) {
+            return (distanceYZ == distanceY + distanceZ);
+        }
+        if (ptLineDist2 == 0) {
+            return (distanceZX == distanceZ + distanceX);
+        }
+        return false;
     }
 
     private boolean checkIfTriangle() {
