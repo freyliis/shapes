@@ -23,4 +23,6 @@ public interface ShapeService {
 
     public void saveShape(Shape shape);
 
+    public Shape parseShape(String line);
+
 }

@@ -9,6 +9,7 @@ import freylis.shapes.factory.ShapeFactory;
 import freylis.shapes.dao.GenericDao;
 import freylis.shapes.model.ImmutablePoint;
 import freylis.shapes.model.Shape;
+import static freylis.shapes.shapes.Shapes.DELIMITER;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,11 @@ import java.util.List;
 public class ShapeServiceImpl implements ShapeService {
 
     private final GenericDao dao;
+    private final ShapeFactory shapeFactory;
 
-
-    public ShapeServiceImpl(GenericDao dao) {
+    public ShapeServiceImpl(GenericDao dao, ShapeFactory shapeFactory) {
         this.dao = dao;
+        this.shapeFactory = shapeFactory;
     }
 
     @Override
@@ -62,5 +64,12 @@ public class ShapeServiceImpl implements ShapeService {
             totalSurface += shape.getSurface();
         }
         return totalSurface;
+    }
+
+    @Override
+    public Shape parseShape(String line) {
+        String[] split = line.split(DELIMITER);
+        String shapeKind = split[0];
+        return shapeFactory.buildShape(shapeKind, split);
     }
 }

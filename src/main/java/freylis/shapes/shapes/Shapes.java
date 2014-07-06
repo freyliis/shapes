@@ -6,17 +6,14 @@
 package freylis.shapes.shapes;
 
 import freylis.shapes.dao.inmemory.InMemoryDao;
-import freylis.shapes.model.ImmutablePoint;
-import freylis.shapes.model.Shape;
 import freylis.shapes.factory.ShapeFactoryImpl;
+import freylis.shapes.parsers.FileParser;
+import freylis.shapes.parsers.HelpParser;
 import freylis.shapes.reader.ConsoleReader;
-import freylis.shapes.reader.FileReader;
 import freylis.shapes.reader.Reader;
+import freylis.shapes.service.PointServiceImpl;
 import freylis.shapes.service.ShapeService;
 import freylis.shapes.service.ShapeServiceImpl;
-import freylis.shapes.utils.MathUtils;
-import java.util.List;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -29,32 +26,34 @@ public class Shapes {
     public static final String FILE = "file";
 
     public static final String DELIMITER = "\\s";
-    private final ShapeService shapeService;
     private final Reader reader;
+    private FileParser fileParser;
 
     public static void main(String[] args) {
-        final ShapeService shapeServiceImpl = new ShapeServiceImpl(new InMemoryDao(), new ShapeFactoryImpl());
-        Shapes shapes = new Shapes(shapeServiceImpl, new ConsoleReader());
+        ShapeService shapeService = new ShapeServiceImpl(new InMemoryDao(), new ShapeFactoryImpl());
+        Shapes shapes = new Shapes(new ConsoleReader(), new FileParser(new PointServiceImpl(shapeService), shapeService));
         shapes.runShapes();
     }
 
-    public Shapes(ShapeService shapeService, Reader reader) {
-        this.shapeService = shapeService;
+    public Shapes(Reader reader, FileParser fileParser) {
         this.reader = reader;
     }
 
     public void runShapes() {
         showPrompt();
-        reader.read();
-    }
-
-
-
-    private void checkPoint(String line) {
-        List<Shape> shapes = shapeService.getShapes();
-        List<Shape> shapesWherePointIsInside = shapeService.getShapesWherePointIsInside(point, shapes);
-        double totalSurface = shapeService.getTotalSurface(shapesWherePointIsInside);
-        System.out.printf("\nTotal shape surface: %f\n", totalSurface);
+        while (reader.hasNextLine()) {
+            String line = reader.nextLine();
+            switch (line) {
+                case EXIT:
+                    System.exit(0);
+                    break;
+                case HELP:
+                    HelpParser.printHelp();
+                    break;
+                default:
+                    fileParser.parseLine(line);
+            }
+        }
     }
 
     private void showPrompt() {

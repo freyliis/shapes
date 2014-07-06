@@ -5,9 +5,6 @@
  */
 package freylis.shapes.reader;
 
-import freylis.shapes.model.Shape;
-import freylis.shapes.parsers.ShapeParser;
-import freylis.shapes.service.ShapeService;
 import static freylis.shapes.shapes.Shapes.DELIMITER;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,17 +20,32 @@ import java.nio.file.Paths;
  *
  * @author freylis
  */
-public class FileReader {
-    
-    private final ShapeService shapeService;
-    private ShapeParser shapeParser;
-    private static final String MARKS = "\"";
+public class FileReader implements Reader {
 
-    public FileReader(ShapeService shapeService) {
-        this.shapeService = shapeService;
+    private static final String MARKS = "\"";
+    private Path path;
+    private BufferedReader reader;
+    private String readLine;
+
+    public FileReader() {
     }
 
-    public Path openFile(String line) {
+    public void init(String fileName) {
+        path = getFile(fileName);
+        reader = getReader();
+    }
+
+    private BufferedReader getReader() {
+        try {
+            Charset charset = Charset.forName("US-ASCII");
+            return Files.newBufferedReader(path, charset);
+        } catch (IOException ex) {
+            LOGGER.debug(ex);
+        }
+        return null;
+    }
+
+    private Path getFile(String line) {
         Path file = null;
         try {
             String fileName = getFileName(line);
@@ -49,7 +61,7 @@ public class FileReader {
                 }
             }
             if (!Files.exists(file)) {
-                throw new RuntimeException("File " + file.toAbsolutePath() + " does not exist");
+                throw new RuntimeException("File " + file + " does not exist");
             }
         } catch (URISyntaxException ex) {
             throw new RuntimeException(ex);
@@ -69,19 +81,23 @@ public class FileReader {
         }
         return split[1];
     }
-    
-    public void readShapesFromFile(String line) {
-        Charset charset = Charset.forName("US-ASCII");
-        Path path = openFile(line);
-        try (final BufferedReader reader = Files.newBufferedReader(path, charset)) {
-            String readLine = null;
-            while ((readLine = reader.readLine()) != null) {
-                Shape parseShape = shapeParser.parseShape(readLine);
-                shapeService.saveShape(parseShape);
+
+    @Override
+    public String nextLine() {
+        return readLine;
+    }
+
+    @Override
+    public boolean hasNextLine() {
+        if (reader != null) {
+            try {
+                readLine = reader.readLine();
+                return readLine != null;
+            } catch (IOException ex) {
+                LOGGER.debug(ex);
             }
-        } catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
         }
+        return false;
     }
 
 }

@@ -18,18 +18,18 @@ public class FileServiceTest {
 
     @Test
     public void shouldReturnTrueIfFileWithMarksIsProperRead() {
-        FileReader fileService = new FileReader(null);
         String fileName = "E:\\New folder\\test.txt";
         String line = "file \"" + fileName + "\"";
+        FileReader fileService = new FileReader();
         String parsedFileName = fileService.getFileName(line);
         assertThat(parsedFileName, CoreMatchers.is(fileName));
     }
 
     @Test
     public void shouldReturnTrueIfFileWithSpacesIsProperRead() {
-        FileReader fileService = new FileReader(null);
         String fileName = "test.txt";
         String line = "file " + fileName;
+        FileReader fileService = new FileReader();
         String parsedFileName = fileService.getFileName(line);
         assertThat(parsedFileName, CoreMatchers.is(fileName));
     }

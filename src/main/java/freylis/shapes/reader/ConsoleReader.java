@@ -6,11 +6,11 @@
 package freylis.shapes.reader;
 
 import freylis.shapes.model.ImmutablePoint;
-import freylis.shapes.parsers.HelpParser;
+import freylis.shapes.model.Shape;
+import freylis.shapes.service.PointService;
+import freylis.shapes.service.ShapeService;
 import static freylis.shapes.shapes.Shapes.DELIMITER;
-import static freylis.shapes.shapes.Shapes.EXIT;
 import static freylis.shapes.shapes.Shapes.FILE;
-import static freylis.shapes.shapes.Shapes.HELP;
 import freylis.shapes.utils.MathUtils;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -21,45 +21,18 @@ import java.util.regex.Pattern;
  */
 public class ConsoleReader implements Reader {
 
+    private final Scanner scanner = new Scanner(System.in).useDelimiter(Pattern.compile(DELIMITER));
+   
+    
     @Override
-    public void read() {
-        Scanner scanner = new Scanner(System.in);
-        scanner = scanner.useDelimiter(Pattern.compile(DELIMITER));
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            switch (line) {
-                case EXIT:
-                    System.exit(0);
-                    break;
-                case HELP:
-                    HelpParser.printHelp();
-                    break;
-                default:
-                    readLine(line);
-            }
-        }
+    public String nextLine() {
+       return scanner.nextLine();
     }
 
-    private void readLine(String line) {
-        try {
-            if (MathUtils.checkIfStartsWithNumber(line)) {
-                parsePoint(line);
-            } else if (line.startsWith(FILE)) {
-                fileService.readShapesFromFile(line);
-            } else {
-                addShape(line);
-            }
-        } catch (RuntimeException ex) {
-            LOGGER.info(ex);
-        }
+    @Override
+    public boolean hasNextLine() {
+        return scanner.hasNextLine();
     }
-
-    private ImmutablePoint parsePoint(String line) throws RuntimeException {
-        String[] split = line.split(DELIMITER);
-        if (split.length != 2) {
-            throw new RuntimeException("Wrong number of parameters for point. Should be 2.");
-        }
-        return new ImmutablePoint(split[0], split[1]);
-    }
-
+    
+   
 }
