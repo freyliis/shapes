@@ -21,12 +21,10 @@ public class ShapeFactoryImpl implements ShapeFactory {
     private final String TRIANGLE = "triangle";
     private final String CIRCLE = "circle";
     private final String DONUT = "donut";
-    
-   
 
     @Override
     public Shape buildShape(String shapeKind, String... line) {
-      
+
         switch (shapeKind) {
             case TRIANGLE:
                 return constructTriangle(line);
@@ -41,36 +39,31 @@ public class ShapeFactoryImpl implements ShapeFactory {
     }
 
     private Shape constructTriangle(String[] parameters) {
-        if (parameters.length != 7) {
-            System.out.println("Wrong number of parameters for triangle: " + parameters.length);
-            return null;
-        } else {
-            ImmutablePoint pointX = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
-            ImmutablePoint pointY = new ImmutablePoint(MathUtils.getDouble(parameters[3]), MathUtils.getDouble(parameters[4]));
-            ImmutablePoint pointZ = new ImmutablePoint(MathUtils.getDouble(parameters[5]), MathUtils.getDouble(parameters[6]));
-            return new Triangle(pointX, pointY, pointZ);
+        checkParametersAreOk(parameters.length, 7);
+        ImmutablePoint pointX = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+        ImmutablePoint pointY = new ImmutablePoint(MathUtils.getDouble(parameters[3]), MathUtils.getDouble(parameters[4]));
+        ImmutablePoint pointZ = new ImmutablePoint(MathUtils.getDouble(parameters[5]), MathUtils.getDouble(parameters[6]));
+        return new Triangle(pointX, pointY, pointZ);
     }
+
+    public Circle constructCircle(String[] parameters) {
+        checkParametersAreOk(parameters.length, 4);
+        ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+        Double radius = MathUtils.getDouble(parameters[3]);
+        return new Circle(center, radius);
     }
-    
-     public Circle constructCircle(String[] parameters) {
-        if (parameters.length != 4) {
-            throw new IllegalArgumentException("Wrong number of parameters for circle: " + parameters.length);
-        } else {
-            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
-            Double radius = MathUtils.getDouble(parameters[3]);
-            return new Circle(center, radius);
-        }
+
+    public Donut constructDonut(String[] parameters) {
+        checkParametersAreOk(parameters.length, 5);
+        ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+        Double radiusOuter = MathUtils.getDouble(parameters[3]);
+        Double radiusInner = MathUtils.getDouble(parameters[4]);
+        return new Donut(center, radiusOuter, radiusInner);
     }
-     
-         public Donut constructDonut(String[] parameters) {
-        if (parameters.length != 5) {
-            System.out.println("Wrong number of parameters for donut: " + parameters.length);
-            return null;
-        } else {
-            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
-            Double radiusOuter = MathUtils.getDouble(parameters[3]);
-            Double radiusInner = MathUtils.getDouble(parameters[4]);
-            return new Donut(center, radiusOuter, radiusInner);
+
+    private void checkParametersAreOk(int size, int properSize) {
+        if (size != properSize) {
+            throw new IllegalArgumentException("Wrong number of parameters for donut: " + size + ". Should be " + properSize);
         }
     }
 

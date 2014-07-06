@@ -28,7 +28,7 @@ public class CircleTest {
 
     @Test
     public void shouldReturnProperSurface() {
-        Circle objectUnderTest = new Circle(new ImmutablePoint(1, 1), 1.0 );
+        Circle objectUnderTest = new Circle(new ImmutablePoint(1, 1), 1.0);
         Double expResult = Math.PI * Math.pow(1, 2);;
         Double result = objectUnderTest.getSurface();
         assertThat(result, CoreMatchers.is(expResult));
@@ -39,7 +39,7 @@ public class CircleTest {
         ImmutablePoint point = new ImmutablePoint(1, 1);
         Circle instance = new Circle(new ImmutablePoint(1, 1), 1.0);
         boolean expResult = true;
-         boolean withEdge = true;
+        boolean withEdge = true;
         boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
@@ -49,7 +49,7 @@ public class CircleTest {
         ImmutablePoint point = new ImmutablePoint(5, 5);
         Circle instance = new Circle(new ImmutablePoint(1, 1), 1.0);
         boolean expResult = false;
-         boolean withEdge = true;
+        boolean withEdge = true;
         boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
@@ -63,8 +63,8 @@ public class CircleTest {
         boolean result = instance.isInside(point, withEdge);
         assertThat(result, CoreMatchers.is(expResult));
     }
-    
-     @Test
+
+    @Test
     public void shouldReturnTrueIfPointIsOnEdgeWithoutEdge() {
         ImmutablePoint point = new ImmutablePoint(1, 0);
         Circle instance = new Circle(new ImmutablePoint(1, 1), 1.0);

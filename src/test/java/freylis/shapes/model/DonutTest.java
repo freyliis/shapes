@@ -15,16 +15,6 @@ import static org.junit.Assert.*;
  */
 public class DonutTest {
 
-    @Test
-    public void shouldReturn0IfOuterRadius0() {
-        ImmutablePoint point = new ImmutablePoint(1, 1);
-        Double outerRadius = 0.0;
-        Double innerRadius = 4.0;
-        Donut objectUnderTest = new Donut(point, outerRadius, innerRadius);
-        Double expResult = 0.0;
-        Double result = objectUnderTest.getSurface();
-        assertThat(result, CoreMatchers.is(expResult));
-    }
 
     @Test
     public void shouldReturnProperSurface() {
@@ -86,6 +76,17 @@ public class DonutTest {
         boolean expResult = true;
         boolean withEdge = true;
         boolean result = objectUnderTest.isInside(point, withEdge);
+        assertThat(result, CoreMatchers.is(expResult));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowRuntimeException() {
+        ImmutablePoint center = new ImmutablePoint(0, 0);
+        Double outerRadius = 1.0;
+        Double innerRadius = 5.0;
+        Donut objectUnderTest = new Donut(center, outerRadius, innerRadius);
+        Double expResult = null;
+        Double result = objectUnderTest.getSurface();
         assertThat(result, CoreMatchers.is(expResult));
     }
 

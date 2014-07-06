@@ -18,6 +18,9 @@ public class Donut implements Shape {
     private final Circle outerCircle;
 
     public Donut(ImmutablePoint center, Double radiusOuter, Double radiusInner) {
+        if (!checkIfDonut(radiusOuter, radiusInner)) {
+            throw new RuntimeException("Not a donut");
+        }
         this.innerCircle = new Circle(center, radiusInner);
         this.outerCircle = new Circle(center, radiusOuter);
     }
@@ -48,4 +51,9 @@ public class Donut implements Shape {
     public boolean isInside(ImmutablePoint point, boolean withEdge) {
         return outerCircle.isInside(point, withEdge) && !innerCircle.isInside(point, !withEdge);
     }
+
+    private boolean checkIfDonut(Double radiusOuter, Double radiusInner) {
+        return radiusOuter > radiusInner;
+    }
+
 }
