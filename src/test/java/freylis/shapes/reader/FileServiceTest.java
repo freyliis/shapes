@@ -34,4 +34,13 @@ public class FileServiceTest {
         assertThat(parsedFileName, CoreMatchers.is(fileName));
     }
 
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExcpetionIfFileWithMarksIsNotProperRead() {
+        String fileName = "E:\\New folder\\test.txt";
+        String line = "file " + fileName;
+        FileReader fileService = new FileReader();
+        String parsedFileName = fileService.getFileName(line);
+        assertThat(parsedFileName, CoreMatchers.is(fileName));
+    }
+
 }
