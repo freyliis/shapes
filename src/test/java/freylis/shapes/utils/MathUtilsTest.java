@@ -5,7 +5,6 @@
  */
 package freylis.shapes.utils;
 
-import freylis.shapes.utils.MathUtils;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -18,45 +17,40 @@ public class MathUtilsTest {
 
     @Test
     public void shouldReturnTrueIfPoint3_0() {
-        MathUtils mathUtils = new MathUtils();
         String line = "-3.0";
-        boolean checkIfPoint = mathUtils.checkIfStartsWithNumber(line);
+        boolean checkIfPoint = MathUtils.checkIfStartsWithNumber(line);
         assertThat(checkIfPoint, CoreMatchers.is(true));
 
     }
 
     @Test
     public void shouldReturnTrueIfPoint0_0() {
-        MathUtils mathUtils = new MathUtils();
         String line = "0.0";
-        boolean checkIfPoint = mathUtils.checkIfStartsWithNumber(line);
+        boolean checkIfPoint = MathUtils.checkIfStartsWithNumber(line);
         assertThat(checkIfPoint, CoreMatchers.is(true));
 
     }
 
     @Test
     public void shouldReturnTrueIfPoint0() {
-        MathUtils mathUtils = new MathUtils();
         String line = "0";
-        boolean checkIfPoint = mathUtils.checkIfStartsWithNumber(line);
+        boolean checkIfPoint = MathUtils.checkIfStartsWithNumber(line);
         assertThat(checkIfPoint, CoreMatchers.is(true));
 
     }
 
     @Test
     public void shouldReturnFalsIfPointA() {
-        MathUtils mathUtils = new MathUtils();
         String line = "a";
-        boolean checkIfPoint = mathUtils.checkIfStartsWithNumber(line);
+        boolean checkIfPoint = MathUtils.checkIfStartsWithNumber(line);
         assertThat(checkIfPoint, CoreMatchers.is(false));
 
     }
 
     @Test
     public void shouldReturnTrueIfPoint0_0_0_0() {
-        MathUtils mathUtils = new MathUtils();
         String line = "0.0 0.0";
-        boolean checkIfPoint = mathUtils.checkIfStartsWithNumber(line);
+        boolean checkIfPoint = MathUtils.checkIfStartsWithNumber(line);
         assertThat(checkIfPoint, CoreMatchers.is(true));
 
     }

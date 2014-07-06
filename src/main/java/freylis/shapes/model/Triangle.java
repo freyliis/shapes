@@ -24,19 +24,7 @@ public class Triangle implements Shape {
     private final double distanceZX;
     private Double surface;
 
-    public static Triangle constructTriangle(String[] parameters) {
-        if (parameters.length != 7) {
-            System.out.println("Wrong number of parameters for triangle: " + parameters.length);
-            return null;
-        } else {
-            ImmutablePoint pointX = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
-            ImmutablePoint pointY = new ImmutablePoint(MathUtils.getDouble(parameters[3]), MathUtils.getDouble(parameters[4]));
-            ImmutablePoint pointZ = new ImmutablePoint(MathUtils.getDouble(parameters[5]), MathUtils.getDouble(parameters[6]));
-            return new Triangle(pointX, pointY, pointZ);
-        }
-    }
-
-    protected Triangle(ImmutablePoint pointX, ImmutablePoint pointY, ImmutablePoint pointZ) {
+    public Triangle(ImmutablePoint pointX, ImmutablePoint pointY, ImmutablePoint pointZ) {
         this.distanceXY = pointX.distance(pointY);
         this.distanceYZ = pointY.distance(pointZ);
         this.distanceZX = pointZ.distance(pointX);

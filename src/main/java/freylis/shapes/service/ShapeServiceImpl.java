@@ -9,11 +9,6 @@ import freylis.shapes.factory.ShapeFactory;
 import freylis.shapes.dao.GenericDao;
 import freylis.shapes.model.ImmutablePoint;
 import freylis.shapes.model.Shape;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +19,10 @@ import java.util.List;
 public class ShapeServiceImpl implements ShapeService {
 
     private final GenericDao dao;
-    private final ShapeFactory shapeFactory;
-    private final FileService fileService = new FileService();
 
-    public ShapeServiceImpl(GenericDao dao, ShapeFactory factory) {
+
+    public ShapeServiceImpl(GenericDao dao) {
         this.dao = dao;
-        this.shapeFactory = factory;
-    }
-
-    @Override
-    public Shape parseShape(String line) {
-        return shapeFactory.buildShape(line);
     }
 
     @Override
@@ -67,6 +55,7 @@ public class ShapeServiceImpl implements ShapeService {
         return shapesWithPointInside;
     }
 
+    @Override
     public double getTotalSurface(List<Shape> shapes) {
         double totalSurface = 0.0;
         for (Shape shape : shapes) {
@@ -74,20 +63,4 @@ public class ShapeServiceImpl implements ShapeService {
         }
         return totalSurface;
     }
-
-    @Override
-    public void readShapesFromFile(String line) {
-        Charset charset = Charset.forName("US-ASCII");
-        Path path = fileService.openFile(line);
-        try (final BufferedReader reader = Files.newBufferedReader(path, charset)) {
-            String readLine = null;
-            while ((readLine = reader.readLine()) != null) {
-                Shape parseShape = parseShape(readLine);
-                saveShape(parseShape);
-            }
-        } catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
-        }
-    }
-
 }

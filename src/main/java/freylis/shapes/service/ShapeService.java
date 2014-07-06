@@ -15,8 +15,6 @@ import java.util.List;
  */
 public interface ShapeService {
 
-    public Shape parseShape(String line);
-
     public List<Shape> getShapes();
 
     public List<Shape> getShapesWherePointIsInside(ImmutablePoint point, List<Shape> allShapes);
@@ -25,5 +23,4 @@ public interface ShapeService {
 
     public void saveShape(Shape shape);
 
-    public void readShapesFromFile(String line);
 }

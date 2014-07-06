@@ -5,6 +5,7 @@
  */
 package freylis.shapes.model;
 
+import freylis.shapes.utils.MathUtils;
 import java.awt.Point;
 
 /**
@@ -17,6 +18,12 @@ public class ImmutablePoint {
 
     public ImmutablePoint(double xPosition, double yPosition) {
         this.point = new Point.Double(xPosition, yPosition);
+    }
+
+    public ImmutablePoint(String xPosition, String yPosition) {
+        Double xDouble = MathUtils.getDouble(xPosition);
+        Double yDouble = MathUtils.getDouble(yPosition);
+        this.point = new Point.Double(xDouble, yDouble);
     }
 
     public double getxPosition() {

@@ -7,9 +7,10 @@ package freylis.shapes.factory;
 
 import freylis.shapes.model.Circle;
 import freylis.shapes.model.Donut;
+import freylis.shapes.model.ImmutablePoint;
 import freylis.shapes.model.Shape;
 import freylis.shapes.model.Triangle;
-import static freylis.shapes.shapes.Shapes.DELIMITER;
+import freylis.shapes.utils.MathUtils;
 
 /**
  *
@@ -24,19 +25,52 @@ public class ShapeFactoryImpl implements ShapeFactory {
    
 
     @Override
-    public Shape buildShape(String line) {
-        String[] split = line.split(DELIMITER);
-        String shapeKind = split[0];
+    public Shape buildShape(String shapeKind, String... line) {
+      
         switch (shapeKind) {
             case TRIANGLE:
-                return Triangle.constructTriangle(split);
+                return constructTriangle(line);
             case CIRCLE:
-                return Circle.constructCircle(split);
+                return constructCircle(line);
             case DONUT:
-                return Donut.constructDonut(split);
+                return constructDonut(line);
             default:
                 System.out.println("No shape with name " + shapeKind);
                 return null;
+        }
+    }
+
+    private Shape constructTriangle(String[] parameters) {
+        if (parameters.length != 7) {
+            System.out.println("Wrong number of parameters for triangle: " + parameters.length);
+            return null;
+        } else {
+            ImmutablePoint pointX = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+            ImmutablePoint pointY = new ImmutablePoint(MathUtils.getDouble(parameters[3]), MathUtils.getDouble(parameters[4]));
+            ImmutablePoint pointZ = new ImmutablePoint(MathUtils.getDouble(parameters[5]), MathUtils.getDouble(parameters[6]));
+            return new Triangle(pointX, pointY, pointZ);
+    }
+    }
+    
+     public Circle constructCircle(String[] parameters) {
+        if (parameters.length != 4) {
+            throw new IllegalArgumentException("Wrong number of parameters for circle: " + parameters.length);
+        } else {
+            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+            Double radius = MathUtils.getDouble(parameters[3]);
+            return new Circle(center, radius);
+        }
+    }
+     
+         public Donut constructDonut(String[] parameters) {
+        if (parameters.length != 5) {
+            System.out.println("Wrong number of parameters for donut: " + parameters.length);
+            return null;
+        } else {
+            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
+            Double radiusOuter = MathUtils.getDouble(parameters[3]);
+            Double radiusInner = MathUtils.getDouble(parameters[4]);
+            return new Donut(center, radiusOuter, radiusInner);
         }
     }
 

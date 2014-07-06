@@ -17,21 +17,9 @@ public class Donut implements Shape {
     private final Circle innerCircle;
     private final Circle outerCircle;
 
-    public static Donut constructDonut(String[] parameters) {
-        if (parameters.length != 5) {
-            System.out.println("Wrong number of parameters for donut: " + parameters.length);
-            return null;
-        } else {
-            ImmutablePoint center = new ImmutablePoint(MathUtils.getDouble(parameters[1]), MathUtils.getDouble(parameters[2]));
-            Double radiusOuter = MathUtils.getDouble(parameters[3]);
-            Double radiusInner = MathUtils.getDouble(parameters[4]);
-            return new Donut(center, radiusOuter, radiusInner);
-        }
-    }
-
-    protected Donut(ImmutablePoint center, Double radiusOuter, Double radiusInner) {
-        this.innerCircle = Circle.constructCircle(center, radiusInner);
-        this.outerCircle = Circle.constructCircle(center, radiusOuter);
+    public Donut(ImmutablePoint center, Double radiusOuter, Double radiusInner) {
+        this.innerCircle = new Circle(center, radiusInner);
+        this.outerCircle = new Circle(center, radiusOuter);
     }
 
     public ImmutablePoint getCenter() {

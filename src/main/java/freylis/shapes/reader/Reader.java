@@ -4,15 +4,18 @@
  * and open the template in the editor.
  */
 
-package freylis.shapes.factory;
+package freylis.shapes.reader;
 
-import freylis.shapes.model.Shape;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author freylis
  */
-public interface ShapeFactory {
+public interface Reader {
     
-    public Shape buildShape(String shapeKind, String... parameters);
+    public static final Logger LOGGER = Logger.getLogger("CONSOLE");
+    
+    public void read();
+    
 }

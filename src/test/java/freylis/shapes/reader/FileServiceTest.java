@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package freylis.shapes.service;
+package freylis.shapes.reader;
 
+import freylis.shapes.reader.FileReader;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,7 +18,7 @@ public class FileServiceTest {
 
     @Test
     public void shouldReturnTrueIfFileWithMarksIsProperRead() {
-        FileService fileService = new FileService();
+        FileReader fileService = new FileReader(null);
         String fileName = "E:\\New folder\\test.txt";
         String line = "file \"" + fileName + "\"";
         String parsedFileName = fileService.getFileName(line);
@@ -26,7 +27,7 @@ public class FileServiceTest {
 
     @Test
     public void shouldReturnTrueIfFileWithSpacesIsProperRead() {
-        FileService fileService = new FileService();
+        FileReader fileService = new FileReader(null);
         String fileName = "test.txt";
         String line = "file " + fileName;
         String parsedFileName = fileService.getFileName(line);

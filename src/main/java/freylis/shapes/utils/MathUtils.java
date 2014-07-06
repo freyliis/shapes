@@ -5,7 +5,6 @@
  */
 package freylis.shapes.utils;
 
-import freylis.shapes.shapes.Shapes;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,9 +12,14 @@ import java.util.regex.Pattern;
  *
  * @author freylis
  */
-public class MathUtils {
+public final class MathUtils {
 
-    private final String pointPattern = "^(-)?\\d+\\.?\\d*.*";
+    private final static String POINT_PATTERN = "^(-)?\\d+\\.?\\d*.*";
+
+    private MathUtils() {
+    }
+    
+    
 
     public static Double getDouble(String number) {
         try {
@@ -26,8 +30,8 @@ public class MathUtils {
         }
     }
 
-    public boolean checkIfStartsWithNumber(String line) {
-        Pattern pattern = Pattern.compile(pointPattern);
+    public static boolean checkIfStartsWithNumber(String line) {
+        Pattern pattern = Pattern.compile(POINT_PATTERN);
         Matcher matcher = pattern.matcher(line);
         return matcher.matches();
     }

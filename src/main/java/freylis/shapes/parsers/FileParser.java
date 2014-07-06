@@ -4,15 +4,14 @@
  * and open the template in the editor.
  */
 
-package freylis.shapes.factory;
-
-import freylis.shapes.model.Shape;
+package freylis.shapes.parsers;
 
 /**
  *
  * @author freylis
  */
-public interface ShapeFactory {
+public class FileParser {
     
-    public Shape buildShape(String shapeKind, String... parameters);
+    
+    
 }
