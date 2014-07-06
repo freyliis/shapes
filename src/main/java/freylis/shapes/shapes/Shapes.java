@@ -29,7 +29,7 @@ public class Shapes {
     public static final String DELIMITER = "\\s";
     private final ShapeService shapeService;
     
-    private final Logger logger = Logger.getLogger(this.getClass());
+    private final Logger logger = Logger.getLogger("CONSOLE");
     
     private final MathUtils mathUtils = new MathUtils();
 
