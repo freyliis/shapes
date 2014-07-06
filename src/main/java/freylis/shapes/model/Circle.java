@@ -5,7 +5,6 @@
  */
 package freylis.shapes.model;
 
-import freylis.shapes.shapes.Shapes;
 import freylis.shapes.utils.MathUtils;
 
 /**

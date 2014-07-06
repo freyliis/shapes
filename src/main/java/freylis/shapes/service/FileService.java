@@ -22,20 +22,19 @@ import java.util.logging.Logger;
  */
 public class FileService {
 
+    private static final String MARKS = "\"";
+
     public Path openFile(String line) {
         Path file = null;
         try {
-            String[] split = line.split(DELIMITER);
-            if (split.length != 2) {
-                System.out.println("Too many parameters");
-            }
-            final URL systemResource = ClassLoader.getSystemResource(split[1]);
+            String fileName = getFileName(line);
+            final URL systemResource = ClassLoader.getSystemResource(fileName);
             if (systemResource != null) {
                 URI resource = systemResource.toURI();
                 file = Paths.get(resource);
 
             } else {
-                file = Paths.get(split[1]);
+                file = Paths.get(fileName);
             }
             if (!Files.exists(file)) {
                 System.out.println("File does not exist");
@@ -44,5 +43,18 @@ public class FileService {
             Logger.getLogger(Shapes.class.getName()).log(Level.SEVERE, null, ex);
         }
         return file;
+    }
+
+    String getFileName(String line) {
+        String[] split;
+        if (line.contains(MARKS)) {
+            split = line.split(MARKS);
+        } else {
+            split = line.split(DELIMITER);
+        }
+        if (split.length != 2) {
+            throw new RuntimeException("Too many parameters for file");
+        }
+        return split[1];
     }
 }

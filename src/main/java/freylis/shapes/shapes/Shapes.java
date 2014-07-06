@@ -14,6 +14,7 @@ import freylis.shapes.service.ShapeServiceImpl;
 import freylis.shapes.utils.MathUtils;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -27,6 +28,8 @@ public class Shapes {
  
     public static final String DELIMITER = "\\s";
     private final ShapeService shapeService;
+    
+    private final Logger logger = Logger.getLogger(this.getClass());
     
     private final MathUtils mathUtils = new MathUtils();
 
@@ -59,13 +62,18 @@ public class Shapes {
     }
 
 
-    private void readLine(String line) throws NumberFormatException {
+    private void readLine(String line) {
+        try {
         if (mathUtils.checkIfStartsWithNumber(line)) {
             checkPoint(line);
         } else if (line.startsWith(FILE)) {
             shapeService.readShapesFromFile(line);
         } else {
             addShape(line);
+        }
+        } catch (RuntimeException ex)
+        {
+            logger.info(ex);
         }
     }
 
@@ -87,8 +95,7 @@ public class Shapes {
     private ImmutablePoint createPoint(String line) {
         String[] split = line.split(DELIMITER);
         if (split.length != 2) {
-            System.out.println("Too less parameters for point. Should be 2.");
-            return null;
+            throw new RuntimeException("Wrong number of parameters for point. Should be 2.");
         }
         double xPosition = MathUtils.getDouble(split[0]);
         double yPosition = MathUtils.getDouble(split[1]);
